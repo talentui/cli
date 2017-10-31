@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-
+console.log(123)
 const download = require('download-git-repo')
 const program = require('commander')
 const exists = require('fs').existsSync
@@ -39,3 +39,6 @@ program.on('--help', () => {
   console.log('    $ vue init webpack my-project')
   console.log()
 })
+let template = program.args[0]
+console.log(template)
+
