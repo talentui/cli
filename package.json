@@ -1,15 +1,17 @@
 {
   "name": "talent-ui-cli",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "talent": "node ./bin/talent",
+    "talent-init": "node ./bin/talent-init --help"
   },
   "author": "",
   "license": "ISC",
   "bin": {
-    "talent": "bin/init"
+    "talent": "bin/talent"
   },
   "dependencies": {
     "async": "^2.4.0",

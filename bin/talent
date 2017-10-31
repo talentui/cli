@@ -1,0 +1,44 @@
+#!/usr/bin/env node
+console.log(123)
+const download = require('download-git-repo')
+const program = require('commander');
+const exists = require('fs').existsSync
+const path = require('path')
+const ora = require('ora')
+const home = require('user-home')
+const tildify = require('tildify')
+const chalk = require('chalk')
+const inquirer = require('inquirer')
+const rm = require('rimraf').sync
+// const logger = require('../lib/logger')
+// const generate = require('../lib/generate')
+// const checkVersion = require('../lib/check-version')
+// const warnings = require('../lib/warnings')
+// const localPath = require('../lib/local-path')
+
+// const isLocalPath = localPath.isLocalPath
+// const getTemplatePath = localPath.getTemplatePath
+
+/**
+ * Usage.
+ */
+
+program
+  .usage('[project-name]')
+//   .option('-c, --clone', 'use git clone')
+//   .option('--offline', 'use cached template')
+
+/**
+ * Help.
+ */
+
+// program.on('--help', () => {
+//   console.log('  Examples:')
+//   console.log()
+//   console.log(chalk.gray('    # create a new project with an official template'))
+//   console.log('    $ vue init webpack my-project')
+//   console.log()
+// })
+
+let rawName = program.args[0];
+console.log(rawName)
