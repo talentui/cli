@@ -1,18 +1,17 @@
 #!/usr/bin/env node
-console.log(123)
 const download = require('download-git-repo')
 const program = require('commander')
 const exists = require('fs').existsSync
 const path = require('path')
 const ora = require('ora')
-const home = require('user-home')
+const home = require('user-home')//Users/beisen
 const tildify = require('tildify')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
 const rm = require('rimraf').sync
 // const logger = require('../lib/logger')
 // const generate = require('../lib/generate')
-// const checkVersion = require('../lib/check-version')
+const checkVersion = require('../lib/check-version')
 // const warnings = require('../lib/warnings')
 // const localPath = require('../lib/local-path')
 
@@ -24,7 +23,7 @@ const rm = require('rimraf').sync
  */
 
 program
-  .usage('[project-name]')
+  .usage('<template-name> [project-name]')
   .option('-c, --clone', 'use git clone')
   .option('--offline', 'use cached template')
 
@@ -47,6 +46,81 @@ function help () {
 }
 help()
 
-let template = program.args[0];
+//第一个参数 ：模版名称 如 webpack / vue
+let  template = program.args[0];
+let  rawName= program.args[1]
+
+const hasSlash = template.indexOf('/') > -1
+const tmp = path.join(home, '.talent-ui-templates', template.replace(/\//g, '-'))
+const inPlace = !rawName || rawName === '.'
+const name = inPlace ? path.relative('../', process.cwd()) : rawName
+const to = path.resolve(rawName || '.')
+const clone = program.clone || false//是否是git clone通过 --clone指定
+
+//离线操作：使用缓存模版
+if (program.offline) {
+  console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`)
+  // template = tmp
+}
+
+//检测当前位置是否存在这个文件夹 to : 如 /Users/beisen/Documents/project/@talentui/talent-ui-cli/myProject. 
+//存在的时候有bug，先留着
+if (exists(to)) {
+  inquirer.prompt([{
+    type: 'confirm',
+    message: inPlace
+      ? 'Generate project in current directory?'
+      : 'Target directory exists. Continue?',
+    name: 'ok'
+  }]).then(answers => {
+    if (answers.ok) {
+      run()
+    }
+  }).catch(logger.fatal)
+} else {
+  run()
+}
+
+//检查通过后，调用run方法 下载和生成模版
+function run(){
+  //检查是否是本地模版 待完善
+  if(false){
+    //do something here
+  }else{
+    //checkVersion 版本检测
+    checkVersion(()=>{
+      //这里根据是否有template 是否有 / 判断是否使用官方的模版还是第三方的模版
+      if(!hasSlash){
+        //去下载官方的模版
+        const officialTemplate = "talentui/project-template";
+        downloadAndGenerate(officialTemplate)
+        // check something here
+      }else{
+        //do something here
+      }
+    })
+  }
+}
+
+//下载并生成模版项目
+function downloadAndGenerate (template) {
+  const spinner = ora('downloading template') //Elegant terminal spinner
+  spinner.start()
+  //如果本地存在的话，删除掉
+  if (exists(tmp)) rm(tmp)
+  download(template, tmp, { clone }, err => {
+    spinner.stop()
+    if (err) logger.fatal('Failed to download repo ' + template + ': ' + err.message.trim())
+    generate(name, tmp, to, err => {
+      if (err) logger.fatal(err)
+      console.log()
+      logger.success('Generated "%s".', name)
+    })
+  })
+}
+
+
+
+
 
 
