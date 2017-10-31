@@ -63,7 +63,7 @@ const inPlace = !rawName || rawName === ".";
 const name = inPlace ? path.relative("../", process.cwd()) : rawName;
 const to = path.resolve(rawName || ".");
 const clone = program.clone || false; //是否是git clone通过 --clone指定
-const engine = ''//用户选择的哪个模版react or vue ?
+let engine = ''//用户选择的哪个模版react or vue ?
 
 //离线操作：使用缓存模版
 if (program.offline) {
