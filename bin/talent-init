@@ -12,7 +12,7 @@ const rm = require("rimraf").sync;
 const logger = require("../lib/logger");
 const generate = require("../lib/generate");
 const checkVersion = require("../lib/check-version");
-const getRepoPath = require("../getRepoPath")
+const getRepoPath = require("../lib/getRepoPath")
 // const warnings = require('../lib/warnings')
 // const localPath = require('../lib/local-path')
 
