@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "talent": "node ./bin/talent",
-    "talent-init": "node ./bin/talent-init webpack cliDemo ",
+    "talent-init": "node ./bin/talent-init demo ",
     "vue": "node ./vue-cli/bin/vue-init afd"
   },
   "author": "",

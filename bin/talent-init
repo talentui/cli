@@ -12,7 +12,7 @@ const rm = require("rimraf").sync;
 const logger = require("../lib/logger");
 const generate = require("../lib/generate");
 const checkVersion = require("../lib/check-version");
-const getRepoPath = require("../lib/getRepoPath")
+const getRepoPath = require("../lib/getRepoPath");
 // const warnings = require('../lib/warnings')
 // const localPath = require('../lib/local-path')
 
@@ -49,30 +49,20 @@ function help() {
 }
 help();
 
-//第一个参数 ：模版名称 如 webpack / vue
-let template = program.args[0];
-let rawName = program.args[1];
+let tmp;
+let engine = ""; //用户选择的哪个模版react or vue ?
 
-const hasSlash = template.indexOf("/") > -1;
-const tmp = path.join(
-    home,
-    "talent-ui-templates",
-    template.replace(/\//g, "-")
-);
+// let template = program.args[0];
+let rawName = program.args[0];
+
+// const hasSlash = template.indexOf("/") > -1;
+
 const inPlace = !rawName || rawName === ".";
 const name = inPlace ? path.relative("../", process.cwd()) : rawName;
 const to = path.resolve(rawName || ".");
 const clone = program.clone || false; //是否是git clone通过 --clone指定
-let engine = ''//用户选择的哪个模版react or vue ?
 
-//离线操作：使用缓存模版
-if (program.offline) {
-    console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`);
-    // template = tmp
-}
-
-//检测当前位置是否存在这个文件夹 to : 如 /Users/beisen/Documents/project/@talentui/talent-ui-cli/myProject.
-//存在的时候有bug，先留着
+//检测当前位置是否存在这个文件夹 to : 如 /Users/beisen/Documents/project/@talentui/talent-ui-cli/myProject
 if (exists(to)) {
     inquirer
         .prompt([
@@ -107,6 +97,18 @@ function selectEngine() {
         ])
         .then(answers => {
             engine = answers.engine;
+            tmp = path.join(
+                home,
+                "talent-ui-templates",
+                engine.replace(/\//g, "-")
+            );
+            //离线操作：使用缓存模版
+            if (program.offline) {
+                console.log(
+                    `> Use cached template at ${chalk.yellow(tildify(tmp))}`
+                );
+                // template = tmp
+            }
             run();
         });
 }
@@ -120,13 +122,13 @@ function run() {
         //checkVersion 版本检测
         checkVersion(() => {
             //这里根据是否有template 是否有 / 判断是否使用官方的模版还是第三方的模版
-            if (!hasSlash) {
+            if (true) {
                 //去下载官方的模版
                 const officialTemplate = getRepoPath(engine);
                 downloadAndGenerate(officialTemplate);
                 // check something here
             } else {
-                //do something here
+                //扩展 第三方模版下载
             }
         });
     }
