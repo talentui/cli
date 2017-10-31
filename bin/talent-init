@@ -24,7 +24,7 @@ const rm = require('rimraf').sync
  */
 
 program
-  .usage('<template-name> [project-name]')
+  .usage('[project-name]')
   .option('-c, --clone', 'use git clone')
   .option('--offline', 'use cached template')
 
@@ -36,9 +36,17 @@ program.on('--help', () => {
   console.log('  Examples:')
   console.log()
   console.log(chalk.gray('    # create a new project with an official template'))
-  console.log('    $ vue init webpack my-project')
+  console.log('    $ talent init  my-project-name')
   console.log()
 })
-let template = program.args[0]
-console.log(template)
+
+/****解析参数****/
+function help () {
+  program.parse(process.argv)
+  if (program.args.length < 1) return program.help()
+}
+help()
+
+let template = program.args[0];
+
 

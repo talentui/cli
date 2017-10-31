@@ -1,12 +1,13 @@
 {
   "name": "talent-ui-cli",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "talent": "node ./bin/talent",
-    "talent-init": "node ./bin/talent-init --help"
+    "talent-init": "node ./bin/talent-init ",
+    "vue": "node ./vue-cli/bin/vue-init afd"
   },
   "author": "",
   "license": "ISC",
