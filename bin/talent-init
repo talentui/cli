@@ -9,8 +9,8 @@ const tildify = require('tildify')
 const chalk = require('chalk')
 const inquirer = require('inquirer')
 const rm = require('rimraf').sync
-// const logger = require('../lib/logger')
-// const generate = require('../lib/generate')
+const logger = require('../lib/logger')
+const generate = require('../lib/generate')
 const checkVersion = require('../lib/check-version')
 // const warnings = require('../lib/warnings')
 // const localPath = require('../lib/local-path')
@@ -51,7 +51,7 @@ let  template = program.args[0];
 let  rawName= program.args[1]
 
 const hasSlash = template.indexOf('/') > -1
-const tmp = path.join(home, '.talent-ui-templates', template.replace(/\//g, '-'))
+const tmp = path.join(home, 'talent-ui-templates', template.replace(/\//g, '-'))
 const inPlace = !rawName || rawName === '.'
 const name = inPlace ? path.relative('../', process.cwd()) : rawName
 const to = path.resolve(rawName || '.')
@@ -92,7 +92,7 @@ function run(){
       //这里根据是否有template 是否有 / 判断是否使用官方的模版还是第三方的模版
       if(!hasSlash){
         //去下载官方的模版
-        const officialTemplate = "talentui/project-template";
+        const officialTemplate = "neove/project-template";
         downloadAndGenerate(officialTemplate)
         // check something here
       }else{
@@ -104,14 +104,16 @@ function run(){
 
 //下载并生成模版项目
 function downloadAndGenerate (template) {
-  const spinner = ora('downloading template') //Elegant terminal spinner
+  const spinner = ora('downloading template') //Elegant terminal spinner 优雅的转圈圈....
   spinner.start()
   //如果本地存在的话，删除掉
   if (exists(tmp)) rm(tmp)
+  //下载并在回调中处理 download(repository, destination, options, callback)
   download(template, tmp, { clone }, err => {
     spinner.stop()
     if (err) logger.fatal('Failed to download repo ' + template + ': ' + err.message.trim())
     generate(name, tmp, to, err => {
+      console.log(tmp,'12312312312312')
       if (err) logger.fatal(err)
       console.log()
       logger.success('Generated "%s".', name)
