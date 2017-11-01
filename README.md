@@ -2,7 +2,7 @@
 
 1. 安装 
 ```
-sudo yarn global add @talent/cli 
+sudo yarn global add @talentui/cli 
 ```
 
 2. 执行创建项目
