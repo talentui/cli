@@ -24,7 +24,7 @@ const getRepoPath = require("../lib/getRepoPath");
  */
 
 program
-    .usage("<template-name> [project-name]")
+    .usage("[project-name]")
     .option("-c, --clone", "use git clone")
     .option("--offline", "use cached template");
 
@@ -54,7 +54,6 @@ let engine = ""; //用户选择的哪个模版react or vue ?
 
 // let template = program.args[0];
 let rawName = program.args[0];
-
 // const hasSlash = template.indexOf("/") > -1;
 
 const inPlace = !rawName || rawName === ".";
