@@ -13,6 +13,14 @@ const logger = require("../lib/logger");
 const generate = require("../lib/generate");
 const checkVersion = require("../lib/check-version");
 const getRepoPath = require("../lib/getRepoPath");
+const {
+    TALENTUI_PB_COMPONENTS,
+    TALENTUI_PROJECT,
+    TALENTUI_COMPONENT,
+    TYPE_COMPOENT,
+    TYPE_PB_COMPONENTS,
+    TYPE_PROJECT
+} = require("../lib/constants");
 // const warnings = require('../lib/warnings')
 // const localPath = require('../lib/local-path')
 
@@ -31,7 +39,6 @@ program
 /**
  * Help.
  */
-
 program.on("--help", () => {
     console.log("  Examples:");
     console.log();
@@ -49,11 +56,8 @@ function help() {
 }
 help();
 
-let tmp;
-let engine = ""; //用户选择的哪个模版react or vue ?
-
-// let template = program.args[0];
-let rawName = program.args[0];
+let tmp; //临时项目下载路径，离线的时候使用这里作为离线模版
+let rawName = program.args[0]; //第一个参数：输入的文件夹名称
 // const hasSlash = template.indexOf("/") > -1;
 
 const inPlace = !rawName || rawName === ".";
@@ -61,59 +65,91 @@ const name = inPlace ? path.relative("../", process.cwd()) : rawName;
 const to = path.resolve(rawName || ".");
 const clone = program.clone || false; //是否是git clone通过 --clone指定
 
-//检测当前位置是否存在这个文件夹 to : 如 /Users/beisen/Documents/project/@talentui/cli/myProject
-if (exists(to)) {
+checkTargetDirectory();
+
+//检测目标文件夹是否存在
+function checkTargetDirectory() {
+    if (exists(to)) {
+        inquirer
+            .prompt([
+                {
+                    type: "confirm",
+                    message: inPlace ? "在当前文件夹下生成项目?" : "目标文件夹已存在，是否继续?",
+                    name: "ok"
+                }
+            ])
+            .then(answers => {
+                if (answers.ok) {
+                    selectProjectType();
+                }
+            })
+            .catch(logger.fatal);
+    } else {
+        selectProjectType();
+    }
+}
+
+//选择：1.组件 2.项目 3.pageBuilder组件开发模版
+function selectProjectType() {
     inquirer
         .prompt([
             {
-                type: "confirm",
-                message: inPlace
-                    ? "Generate project in current directory?"
-                    : "Target directory exists. Continue?",
-                name: "ok"
+                type: "list",
+                message: "选择开发类别",
+                choices: [
+                    TALENTUI_PROJECT,
+                    TALENTUI_COMPONENT,
+                    TALENTUI_PB_COMPONENTS
+                ],
+                name: "projectType"
             }
         ])
         .then(answers => {
-            if (answers.ok) {
+            let choice = answers.projectType;
+            //项目
+            if (choice === TALENTUI_PROJECT) {
                 selectEngine();
             }
-        })
-        .catch(logger.fatal);
-} else {
-    selectEngine();
+            //组件
+            if (choice === TALENTUI_COMPONENT) {
+                generateTmp(TYPE_COMPOENT)
+            }
+            //pb组件开发
+            if (choice === TALENTUI_PB_COMPONENTS) {
+                generateTmp(TYPE_PB_COMPONENTS)
+            }
+        });
 }
-
 // 选择模版 react or vue
 function selectEngine() {
     inquirer
         .prompt([
             {
                 type: "list",
-                message: "Please select engines",
+                message: "选择项目开发框架",
                 choices: ["react", "vue"],
                 name: "engine"
             }
         ])
         .then(answers => {
             engine = answers.engine;
-            tmp = path.join(
-                home,
-                "talent-ui-templates",
-                engine.replace(/\//g, "-")
-            );
-            //离线操作：使用缓存模版
-            if (program.offline) {
-                console.log(
-                    `> Use cached template at ${chalk.yellow(tildify(tmp))}`
-                );
-                // template = tmp
-            }
-            run();
+            generateTmp(TYPE_PROJECT ,engine);
         });
 }
 
+//生成临时模版下载路径，==> 拿到官方模版GitHub地址,==>执行下载 run
+function generateTmp(type, engine = '') {
+    tmp = path.join(home, "talent-ui-templates", type, engine);
+    //离线操作：使用缓存模版
+    if (program.offline) {
+        console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`);
+        template = tmp;
+    }
+    const officialTemplate = getRepoPath(type, engine)
+    run(officialTemplate);
+}
 //检查通过后，调用run方法 下载和生成模版
-function run() {
+function run(officialTemplate) {
     //检查是否是本地模版 待完善
     if (false) {
         //do something here
@@ -122,10 +158,8 @@ function run() {
         checkVersion(() => {
             //这里根据是否有template 是否有 / 判断是否使用官方的模版还是第三方的模版
             if (true) {
-                //去下载官方的模版
-                const officialTemplate = getRepoPath(engine);
+                //下载官方的模版
                 downloadAndGenerate(officialTemplate);
-                // check something here
             } else {
                 //扩展 第三方模版下载
             }
