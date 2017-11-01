@@ -61,7 +61,7 @@ const name = inPlace ? path.relative("../", process.cwd()) : rawName;
 const to = path.resolve(rawName || ".");
 const clone = program.clone || false; //是否是git clone通过 --clone指定
 
-//检测当前位置是否存在这个文件夹 to : 如 /Users/beisen/Documents/project/@talentui/talent-ui-cli/myProject
+//检测当前位置是否存在这个文件夹 to : 如 /Users/beisen/Documents/project/@talentui/cli/myProject
 if (exists(to)) {
     inquirer
         .prompt([
