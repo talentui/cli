@@ -8,7 +8,7 @@ sudo yarn global add @talentui/cli
 2. 执行创建项目
 
 ```
-//talent init 我的项目名称
+//talent init 目标文件夹名称(如果为 . 则在当前目录下生成项目)
 talent init demo
 ```
 3. 选择vue／react模版
