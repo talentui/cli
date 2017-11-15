@@ -1,5 +1,7 @@
 #!/usr/bin/env node
 const download = require("download-git-repo");
+const https = require("https");
+const request = require("request");
 const program = require("commander");
 const exists = require("fs").existsSync;
 const path = require("path");
@@ -112,11 +114,11 @@ function selectProjectType() {
             }
             //组件
             if (choice === TALENTUI_COMPONENT) {
-                generateTmp(TYPE_COMPOENT)
+                generateTmp(TYPE_COMPOENT);
             }
             //pb组件开发
             if (choice === TALENTUI_PB_COMPONENTS) {
-                generateTmp(TYPE_PB_COMPONENTS)
+                generateTmp(TYPE_PB_COMPONENTS);
             }
         });
 }
@@ -133,21 +135,58 @@ function selectEngine() {
         ])
         .then(answers => {
             engine = answers.engine;
-            generateTmp(TYPE_PROJECT ,engine);
+            generateTmp(TYPE_PROJECT, engine);
         });
 }
 
-//生成临时模版下载路径，==> 拿到官方模版GitHub地址,==>执行下载 run
-function generateTmp(type, engine = '') {
+//生成临时模版下载路径，==> 选取项目指定的分支，拼接拿到官方模版GitHub地址,==>执行下载 run
+function generateTmp(type, engine = "") {
     tmp = path.join(home, "talent-ui-templates", type, engine);
     //离线操作：使用缓存模版
     if (program.offline) {
         console.log(`> Use cached template at ${chalk.yellow(tildify(tmp))}`);
         template = tmp;
     }
-    const officialTemplate = getRepoPath(type, engine)
-    run(officialTemplate);
+    const officialTemplate = getRepoPath(type, engine);
+    chooseBranch(officialTemplate);
+    // run(officialTemplate);
 }
+//获取分支分支列表，并选取分支
+function chooseBranch(officialTemplate) {
+    const owner = officialTemplate.split("/")[0]; //所有者
+    const repo = officialTemplate.split("/")[1]; //项目名称
+    const url = `https://api.github.com/repos/${owner}/${repo}/branches`; //https://developer.github.com/v3/repos/branches/#list-branches
+    const spinner = ora("获取项目分支列表");
+    spinner.start();
+    var options = {
+        url: url,
+        headers: {
+            "User-Agent": "neove"
+        }
+    };
+    request(options, function(error, response, body) {
+        if (!error && response.statusCode == 200) {
+            spinner.stop();
+            var info = JSON.parse(body);
+            const choices = info.map(item => item.name);
+            inquirer
+                .prompt([
+                    {
+                        type: "list",
+                        message: "选择项目分支",
+                        choices: choices,
+                        name: "branch"
+                    }
+                ])
+                .then(answers => {
+                    const branch = answers.branch;
+                    const repoPathWithBranch = `${officialTemplate}#${branch}`;
+                    run(repoPathWithBranch);
+                });
+        }
+    });
+}
+
 //检查通过后，调用run方法 下载和生成模版
 function run(officialTemplate) {
     //检查是否是本地模版 待完善
