@@ -6,7 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "talent": "node ./bin/talent",
-    "talent-init": "node ./bin/talent-init demo "
+    "demo": "node ./bin/talent-init demo "
   },
   "author": "lihe3@beisen.com",
   "license": "ISC",

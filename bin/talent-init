@@ -21,7 +21,9 @@ const {
     TALENTUI_COMPONENT,
     TYPE_COMPOENT,
     TYPE_PB_COMPONENTS,
-    TYPE_PROJECT
+    TYPE_PROJECT,
+    TALENTUI_DLL_BUILDER,
+    TYPE_DLL_BUILDER
 } = require("../lib/constants");
 // const warnings = require('../lib/warnings')
 // const localPath = require('../lib/local-path')
@@ -101,7 +103,8 @@ function selectProjectType() {
                 choices: [
                     TALENTUI_PROJECT,
                     TALENTUI_COMPONENT,
-                    TALENTUI_PB_COMPONENTS
+                    TALENTUI_PB_COMPONENTS,
+                    TALENTUI_DLL_BUILDER
                 ],
                 name: "projectType"
             }
@@ -120,7 +123,27 @@ function selectProjectType() {
             if (choice === TALENTUI_PB_COMPONENTS) {
                 generateTmp(TYPE_PB_COMPONENTS);
             }
+            //dll打包项目
+             if (choice === TALENTUI_DLL_BUILDER) {
+                askDllList();
+            }
         });
+}
+//输入需要打包到dll的依赖
+function askDllList() {
+    inquirer
+    .prompt([
+        {
+            type: "input",
+            message: "输入需要打包的依赖及版本号，如react@16.1.0，并以空格分隔：",
+            name: "dllList"
+        }
+    ])
+    .then(answers => {
+       //处理输入的内容
+       global['talentui_info']['dllList'] = answers.dllList.split(/\s+/g);//拆分为数组，兼容多个连续空格
+       generateTmp(TYPE_DLL_BUILDER);
+    });
 }
 // 选择模版 react or vue
 function selectEngine() {
