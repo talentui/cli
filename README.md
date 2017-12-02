@@ -18,5 +18,9 @@ talent init demo
 ![](https://user-images.githubusercontent.com/18530075/32259551-3fde885a-befc-11e7-9e92-b82ffa3d58bf.png)
 
 # changeLog:
+
+## 1.3.0 
+* 加入打包dll的模版项目
+
 ## 1.2.0
 * 加入分支选取
