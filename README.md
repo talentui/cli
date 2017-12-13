@@ -19,6 +19,11 @@ talent init demo
 
 # changeLog:
 
+## 1.3.1 
+fix ![bug](https://github.com/talentui/cli/issues/2) 
+
+过滤不需要处理的文件
+
 ## 1.3.0 
 * 加入打包dll的模版项目
 
