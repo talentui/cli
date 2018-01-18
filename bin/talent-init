@@ -122,6 +122,7 @@ function selectProjectType() {
             //pb组件开发
             if (choice === TALENTUI_PB_COMPONENTS) {
                 generateTmp(TYPE_PB_COMPONENTS);
+                global['talentui_info']['pbComponents'] = true;//标记，用于ask appId
             }
             //dll打包项目
              if (choice === TALENTUI_DLL_BUILDER) {
