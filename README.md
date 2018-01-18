@@ -20,6 +20,10 @@ talent init demo
 
 # changeLog:
 
+## 1.3.6
+
+在选择pageBuilder组件包开发的时候，询问appId信息，开发者务必准确填写
+
 ## 1.3.1 
 fix ![bug](https://github.com/talentui/cli/issues/2) 
 
