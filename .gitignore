@@ -3,3 +3,4 @@ vue-cli/
 yarn.lock
 cliDemo/
 demo/
+package-lock.json
