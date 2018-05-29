@@ -23,7 +23,9 @@ const {
     TYPE_PB_COMPONENTS,
     TYPE_PROJECT,
     TALENTUI_DLL_BUILDER,
-    TYPE_DLL_BUILDER
+    TYPE_DLL_BUILDER,
+    TALENTJS_COMPONENT,
+    TYPE_TALENTJS_COMPONENT
 } = require("../lib/constants");
 // const warnings = require('../lib/warnings')
 // const localPath = require('../lib/local-path')
@@ -104,29 +106,32 @@ function selectProjectType() {
                     TALENTUI_PROJECT,
                     TALENTUI_COMPONENT,
                     TALENTUI_PB_COMPONENTS,
-                    TALENTUI_DLL_BUILDER
+                    TALENTUI_DLL_BUILDER,
+                    TALENTJS_COMPONENT
                 ],
                 name: "projectType"
             }
         ])
         .then(answers => {
             let choice = answers.projectType;
-            //项目
-            if (choice === TALENTUI_PROJECT) {
-                selectEngine();
-            }
-            //组件
-            if (choice === TALENTUI_COMPONENT) {
-                generateTmp(TYPE_COMPOENT);
-            }
-            //pb组件开发
-            if (choice === TALENTUI_PB_COMPONENTS) {
-                generateTmp(TYPE_PB_COMPONENTS);
-                global['talentui_info']['pbComponents'] = true;//标记，用于ask appId
-            }
-            //dll打包项目
-             if (choice === TALENTUI_DLL_BUILDER) {
-                askDllList();
+            switch (choice) {
+                case TALENTUI_PROJECT://项目
+                    selectEngine();
+                    break;
+                case TALENTUI_COMPONENT://组件
+                    generateTmp(TYPE_COMPOENT);
+                    break;
+                case TALENTUI_PB_COMPONENTS://pb组件开发
+                    generateTmp(TYPE_PB_COMPONENTS);
+                    global['talentui_info']['pbComponents'] = true;//标记，用于ask appId
+                    break;
+                case TALENTUI_DLL_BUILDER://dll打包项目
+                    askDllList();                    
+                    break;
+                case TALENTJS_COMPONENT://袁园姐的组件项目
+                    global['talentui_info']['talentjs_component'] = true;//标记，用于ask 某些字段                    
+                    generateTmp(TYPE_TALENTJS_COMPONENT)
+                    break;
             }
         });
 }
