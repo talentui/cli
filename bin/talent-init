@@ -25,7 +25,9 @@ const {
     TALENTUI_DLL_BUILDER,
     TYPE_DLL_BUILDER,
     TALENTJS_COMPONENT,
-    TYPE_TALENTJS_COMPONENT
+    TYPE_TALENTJS_COMPONENT,
+    TALENTJS_THUNDER_COMPONENT,
+    TYPE_THUNDER_COMPONENT
 } = require("../lib/constants");
 // const warnings = require('../lib/warnings')
 // const localPath = require('../lib/local-path')
@@ -107,7 +109,8 @@ function selectProjectType() {
                     TALENTUI_COMPONENT,
                     TALENTUI_PB_COMPONENTS,
                     TALENTUI_DLL_BUILDER,
-                    TALENTJS_COMPONENT
+                    TALENTJS_COMPONENT,
+                    TALENTJS_THUNDER_COMPONENT
                 ],
                 name: "projectType"
             }
@@ -132,6 +135,10 @@ function selectProjectType() {
                     global['talentui_info']['talentjs_component'] = true;//标记，用于ask 某些字段                    
                     generateTmp(TYPE_TALENTJS_COMPONENT)
                     break;
+                case TALENTJS_THUNDER_COMPONENT:{//thunder component
+                    generateTmp(TYPE_THUNDER_COMPONENT);
+                    global['talentui_info']['pbComponents'] = true;//标记，用于ask appId
+                }
             }
         });
 }
