@@ -6,13 +6,15 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "talent": "node ./bin/talent",
-    "demo": "node ./bin/talent-init demo "
+    "demo": "node ./bin/talent-init demo ",
+    "up":"node ./bin/talent-upgrade"
   },
   "author": "lihe3@beisen.com",
   "license": "ISC",
   "bin": {
     "talent": "bin/talent",
-    "talent-init": "bin/talent-init"
+    "talent-init": "bin/talent-init",
+    "talent-upgrade": "bin/talent-upgrade"
   },
   "dependencies": {
     "async": "^2.4.0",
