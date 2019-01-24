@@ -12,15 +12,15 @@ packInfo.main = "lib/index.js";
 // 开发依赖
 packInfo.devDependencies = {
     "@beisen/babel": "7.x.x",
-    "@beisen/build": "1.0.23",
+    "@beisen/build": "^1.0.23",
     "@beisen/italent-thunder": "^1.0.18",
     "@beisen/storybook": "1.x.x",
     "@beisen/storybook-react": "4.x.x",
     "@beisen/ts": "1.x.x",
     "@beisen/webpack": "4.x.x",
     "@talentui/tools": "^1.0.4",
-    "@types/react": "^16.7.13",
-    "@types/react-dom": "^16.0.11",
+    "@types/react": "*",
+    "@types/react-dom": "*",
     commitizen: "^2.x.x",
     react: "15.x.x",
     "react-dom": "15.x.x"
@@ -42,9 +42,9 @@ packInfo.scripts = {
 delete packInfo.dllList;
 
 // 删除dll-config.js
-const dllConfig = path.resolve(cwd,'src/dll-config.js');
-if(fs.existsSync(dllConfig)){
-    fs.unlinkSync(dllConfig)
+const dllConfig = path.resolve(cwd, "src/dll-config.js");
+if (fs.existsSync(dllConfig)) {
+    fs.unlinkSync(dllConfig);
 }
 
 fs.writeFileSync(
