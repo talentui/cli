@@ -48,7 +48,7 @@ if(fs.existsSync(dllConfig)){
 }
 
 fs.writeFileSync(
-    path.resolve(cwd, "a.json"),
+    path.resolve(cwd, "package.json"),
     JSON.stringify(packInfo, null, 4)
 );
 console.log(
