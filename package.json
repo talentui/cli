@@ -1,42 +1,42 @@
 {
-  "name": "@talentui/cli",
-  "version": "1.5.2",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "talent": "node ./bin/talent",
-    "demo": "node ./bin/talent-init demo ",
-    "up":"node ./bin/talent-upgrade"
-  },
-  "author": "lihe3@beisen.com",
-  "license": "ISC",
-  "bin": {
-    "talent": "bin/talent",
-    "talent-init": "bin/talent-init",
-    "talent-upgrade": "bin/talent-upgrade"
-  },
-  "dependencies": {
-    "async": "^2.4.0",
-    "chalk": "^2.1.0",
-    "commander": "^2.9.0",
-    "consolidate": "^0.14.0",
-    "download-git-repo": "^1.0.1",
-    "handlebars": "^4.0.5",
-    "inquirer": "^3.3.0",
-    "metalsmith": "^2.1.0",
-    "minimatch": "^3.0.0",
-    "multimatch": "^2.1.0",
-    "ora": "^1.3.0",
-    "read-metadata": "^1.0.0",
-    "request": "^2.83.0",
-    "rimraf": "^2.5.0",
-    "semver": "^5.1.0",
-    "tildify": "^1.2.0",
-    "uid": "0.0.2",
-    "user-home": "^2.0.0",
-    "validate-npm-package-name": "^3.0.0"
-  },
-  "engines": {
-    "node": ">=6.0.0"
-  }
+    "name": "@talentui/cli",
+    "version": "1.5.3",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "talent": "node ./bin/talent",
+        "demo": "node ./bin/talent-init demo ",
+        "up": "node ./bin/talent-upgrade"
+    },
+    "author": "lihe3@beisen.com",
+    "license": "ISC",
+    "bin": {
+        "talent": "bin/talent",
+        "talent-init": "bin/talent-init",
+        "talent-upgrade": "bin/talent-upgrade"
+    },
+    "dependencies": {
+        "async": "^2.4.0",
+        "chalk": "^2.1.0",
+        "commander": "^2.9.0",
+        "consolidate": "^0.14.0",
+        "download-git-repo": "^1.0.1",
+        "handlebars": "^4.0.5",
+        "inquirer": "^3.3.0",
+        "metalsmith": "^2.1.0",
+        "minimatch": "^3.0.0",
+        "multimatch": "^2.1.0",
+        "ora": "^1.3.0",
+        "read-metadata": "^1.0.0",
+        "request": "^2.83.0",
+        "rimraf": "^2.5.0",
+        "semver": "^5.1.0",
+        "tildify": "^1.2.0",
+        "uid": "0.0.2",
+        "user-home": "^2.0.0",
+        "validate-npm-package-name": "^3.0.0"
+    },
+    "engines": {
+        "node": ">=6.0.0"
+    }
 }
